@@ -25,7 +25,7 @@ value=`$DIALOG --backtitle "$backtitle" "$@" \
   --title " MAIN MENU " "$@" \
         --menu "Welcome to the main menu for LTFS Tape Manager. \n\
 Choose a menu item from below, or press cancel to quit. \n\n\
-          Menu Option:" 20 52 6 \
+          Menu Option:" 20 54 7 \
         "Format Tape"  "Label and format a tape." \
         "List Tape"  "List contents of tape." \
         "Copy to Tape" "Copy staging folder to tape." \

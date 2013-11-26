@@ -1,5 +1,12 @@
 #!/bin/bash
 
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#
+# FUNCTION: format_tape
+# Format an LTFS LTO tape. Note: -f force is not used, and so an tape
+# that has already been formatted will not be overwritten.
+#
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 format_tape() {
   "$DIALOG" \
       --clear \
@@ -7,6 +14,12 @@ format_tape() {
       --msgbox "You selected format tape." 10 30
 }
 
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#
+# FUNCTION: list_tape
+# List the contents of a mounted tape (directories and files).
+#
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 list_tape() {
   exec 3>&1
   SELECTED=`$DIALOG --title "Please choose a file" "$@" --backtitle "$backtitle" --fselect $MOUNT_POINT/ 15 60 2>&1 1>&3`
@@ -25,12 +38,34 @@ list_tape() {
   esac
 }
 
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#
+# FUNCTION: copy_to_tape
+# Perform a file copy using rsync, from the tape staging folder, to 
+# the tape drive.
+#
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 copy_to_tape() {
   logger 4 "Starting copy to tape from $TEST_SOURCE to $MOUNT_POINT"
+  
   ($RSYNC_CMD $TEST_SOURCE $MOUNT_POINT) | "$DIALOG" --title " PROGRESS " \
         --progressbox "Copy progress..." 20 70
+
+  logger 4 "Copy from $TEST_SOURCE to $MOUNT_POINT complete."
+  
+  "$DIALOG" \
+      --clear \
+      --backtitle "$backtitle" \
+      --msgbox "Copy complete." 8 30
 }
 
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#
+# FUNCTION: restore_tape
+# Completely restore the entire contents of a tape to the tape staging
+# folder.
+#
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 restore_tape() {
    "$DIALOG" \
       --clear \
@@ -38,6 +73,13 @@ restore_tape() {
       --msgbox "You selected restore tape." 10 30
 }
 
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#
+# FUNCTION: restore_items
+# Restore selected directories or files from the tape. Restored items
+# will be placed in the 'Requests' area.
+#
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 restore_items() {
   "$DIALOG" \
       --clear \
@@ -45,14 +87,27 @@ restore_items() {
       --msgbox "You selected restore archive items." 10 30
 }
 
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#
+# FUNCTION: eject_tape
+# Eject a tape.
+#
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 eject_tape() {
   "$DIALOG" \
       --clear \
       --backtitle "$backtitle" \
       --msgbox "You selected eject tape." 10 30
-      ;;
 }
 
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#
+# FUNCTION: get_tape_status
+# Get tape status.
+# https://github.com/prestoprime/LTFSArchiver
+# https://www.prestocentre.org/library/tools/ltfs-archiver
+#
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 get_tape_status() {
   COUNT=0
   while [ $COUNT -le 5 ]; do
