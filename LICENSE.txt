@@ -1,4 +1,5 @@
-# Archivists Workflow - a simple workflow application for carrier transfers.
+# LTFS Console - a simple console application for formatting, reading 
+# and writing to LTFS formatted LTO tapes.
 # Version: 0.9 Beta
 # Authors: Anthony Bouch
 #
