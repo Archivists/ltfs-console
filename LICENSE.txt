@@ -4,6 +4,8 @@
 # Authors: Anthony Bouch
 #
 # Copyritght (C) 2013 Anthony Bouch <tony@58bits.com>
+# Portions Copyright (C) 2011-2012 RAI – Radiotelevisione Italiana <cr_segreteria@rai.it>
+# RAI Authors: L. Savio, L. Boch, R. Borgotallo
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
