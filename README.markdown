@@ -2,7 +2,7 @@
 
 LTFS Console is a Linux console application for formatting, reading, and writing to LTFS formatted LTO tape cartridges. It has been written in Bash and Dialog, and at the moment supports only direct attached single unit LTO-5 (or above) tape drives.
 
-Some utility and helper methods have come from PrestoPrime project [https://github.com/prestoprime/LTFSArchiver](https://github.com/prestoprime/LTFSArchiver)
+Some utility and helper methods have come from the PrestoPrime project [https://github.com/prestoprime/LTFSArchiver](https://github.com/prestoprime/LTFSArchiver)
 
 ## Installation
 
